@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Crafting Extra • Onetale</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Julius+Sans+One&display=swap" rel="stylesheet">
+    <style>
+        .bebas-neue-regular { font-family: "Bebas Neue", sans-serif; font-weight: 400; font-style: normal; color: #9724ad; }
+        body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: linear-gradient(180deg, #0f2027, #203a43, #2c5364); color: #fff; text-align: center; min-height: 100vh; display: flex; flex-direction: column; }
+        nav { display: flex; justify-content: space-between; align-items: center; background-color: rgba(0, 0, 0, 0.75); padding: 10px 30px; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(5px); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); }
+        .nav-left { display: flex; align-items: center; gap: 15px; }
+        .nav-logo { height: 50px; width: 50px; border-radius: 8px; }
+        .nav-title { font-size: 22px; font-weight: bold; }
+        .nav-links { display: flex; list-style: none; gap: 25px; margin: 0; padding: 0; }
+        .nav-links a { color: #fff; text-decoration: none; font-weight: bold; }
+        .nav-links a:hover { color: #1abc9c; }
+        @media (max-width: 600px) { nav { flex-direction: column; gap: 15px; } }
+        header { padding: 40px 20px 20px; }
+        .header-row { display: flex; justify-content: center; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .header-row h1 { font-size: 40px; margin: 0; }
+        .boxes { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; max-width: 1200px; margin: 30px auto; padding: 0 20px; flex-grow: 1; }
+        @media (max-width: 800px) { .boxes { grid-template-columns: 1fr; } }
+        .box { background: rgba(0,0,0,0.4); padding: 30px; border-radius: 15px; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .box:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.4); }
+        .crafting-img { max-width: 100%; border-radius: 10px; background: rgba(0,0,0,0.2); padding: 10px; margin-top: 15px; }
+        footer { padding: 20px; font-size: 14px; opacity: 0.7; margin-top: auto; }
+
+        /* COOKIE BANNER CSS */
+        .cookie-banner {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background-color: rgba(15, 32, 39, 0.95);
+            color: #fff; padding: 15px 20px; text-align: center;
+            z-index: 9999; box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.5);
+            display: none;
+            flex-direction: column; align-items: center; gap: 10px;
+            box-sizing: border-box;
+        }
+        .cookie-banner p { margin: 0; font-size: 14px; }
+        .cookie-btn {
+            background-color: #1abc9c; color: #000; border: none;
+            padding: 10px 20px; font-weight: bold; border-radius: 8px;
+            cursor: pointer; transition: background 0.3s;
+        }
+        .cookie-btn:hover { background-color: #16a085; }
+        @media (min-width: 600px) { .cookie-banner { flex-direction: row; justify-content: center; gap: 20px; } }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="nav-left">
+        <img src="OneTale_Logo_Zwölfter_Versuch_1 (1).png" class="nav-logo">
+        <span class="nav-title">Onetale</span>
+    </div>
+    <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="crafting.html" style="color: #1abc9c;">Crafting Extra</a></li>
+        <li><a href="duelcraft.html">DuelCraft WIP</a></li>
+        <li><a href="index.html#map-box">Mappa</a></li>
+        <li><a href="index.html#community">Social</a></li>
+        <li><a href="https://discord.gg/AgcgVAdEYt" target="_blank">Discord</a></li>
+    </ul>
+</nav>
+
+<header>
+    <div class="header-row">
+        <h1>🛠️ Crafting Extra</h1>
+    </div>
+    <p>Scopri tutte le ricette personalizzate presenti nel nostro server!</p>
+</header>
+
+<div class="boxes">
+    <div class="box">
+        <h2>Spada dell'Eroe</h2>
+        <p>Un'arma leggendaria forgiata con materiali rari.</p>
+        <img src="https://via.placeholder.com/250x150/555/fff?text=Immagine+Crafting" alt="Crafting Spada" class="crafting-img">
+    </div>
+    <div class="box">
+        <h2>Zaino da Viaggiatore</h2>
+        <p>Aumenta il tuo spazio nell'inventario. Utile per le lunghe esplorazioni!</p>
+        <img src="https://via.placeholder.com/250x150/555/fff?text=Immagine+Crafting" alt="Crafting Zaino" class="crafting-img">
+    </div>
+</div>
+
+<footer>
+    © <span id="year"></span> Onetale • Server Minecraft
+</footer>
+
+<div id="cookieBanner" class="cookie-banner">
+    <p>Questo sito utilizza i cookie per garantirti la migliore esperienza di navigazione e memorizzare le tue preferenze.</p>
+    <button id="acceptCookies" class="cookie-btn">Ho capito!</button>
+</div>
+
+<script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // SCRIPT COOKIE BANNER
+    document.addEventListener("DOMContentLoaded", function() {
+        const cookieBanner = document.getElementById("cookieBanner");
+        const acceptBtn = document.getElementById("acceptCookies");
+
+        if (!localStorage.getItem("cookieConsent")) {
+            cookieBanner.style.display = "flex";
+        }
+
+        acceptBtn.addEventListener("click", function() {
+            localStorage.setItem("cookieConsent", "true");
+            cookieBanner.style.display = "none";
+        });
+    });
+</script>
+
+</body>
+</html>
