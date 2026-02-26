@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Onetale • Server Minecraft</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Julius+Sans+One&display=swap" rel="stylesheet">
+    <style>
+    .bebas-neue-regular {
+         font-family: "Bebas Neue", sans-serif;
+         font-weight: 400;
+         font-style: normal;
+         color: #9724ad;
+    }
+    body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
+        color: #fff;
+        text-align: center;
+    }
+    nav { display: flex; justify-content: space-between; align-items: center; background-color: rgba(0, 0, 0, 0.75); padding: 10px 30px; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(5px); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); }
+    .nav-left { display: flex; align-items: center; gap: 15px; }
+    .nav-logo { height: 50px; width: 50px; border-radius: 8px; }
+    .nav-title { font-size: 22px; font-weight: bold; }
+    .nav-links { display: flex; list-style: none; gap: 25px; margin: 0; padding: 0; }
+    .nav-links a { color: #fff; text-decoration: none; font-weight: bold; }
+    .nav-links a:hover { color: #1abc9c; }
+    @media (max-width: 600px) { nav { flex-direction: column; gap: 15px; } }
+    header { padding: 60px 20px; }
+    .header-row { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    .header-row h1, .header-row h2 { margin: 0; }
+    .version { font-size: 18px; opacity: 0.85; }
+    .ip { font-size: 28px; background: #1abc9c; color: #000; display: inline-block; padding: 15px 25px; border-radius: 10px; margin-top: 15px; cursor: pointer; }
+    .ip:hover { background: #16a085; }
+    .box { background: rgba(0,0,0,0.4); padding: 30px; border-radius: 15px; scroll-margin-top: 80px; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .box:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.4); }
+    .boxes { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+    #map-box { grid-column: 1 / -1; }
+    @media (max-width: 800px) { .boxes { grid-template-columns: 1fr; } }
+    ul { list-style: none; padding: 0; }
+    li { margin: 8px 0; }
+    .status { font-size: 20px; }
+    .online { color: #2ecc71; }
+    .offline { color: #e74c3c; }
+    .staff-list { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+    .staff-member { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.3); padding: 10px 15px; border-radius: 8px; font-size: 18px; }
+    .role-badge { padding: 5px 10px; border-radius: 5px; font-weight: bold; font-size: 14px; }
+    .role-founder { background-color: #c0392b; color: white; }
+    .role-admin   { background-color: #d35400; color: white; }
+    .role-mod     { background-color: #27ae60; color: white; }
+    .role-helper  { background-color: #2980b9; color: white; }
+    .community-links { display: grid; grid-template-columns: repeat(2, auto); gap: 20px; margin-top: 25px; justify-content: center; }
+    .community-card { background: rgba(0,0,0,0.35); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 15px; width: 220px; }
+    .community-card img { width: 64px; height: 64px; }
+    .community-card a { text-decoration: none; color: #fff; font-weight: bold; padding: 12px 18px; border-radius: 10px; transition: transform 0.2s ease, opacity 0.2s ease; width: 80%; text-align: center; }
+    .community-card a:hover { transform: scale(1.05); opacity: 0.9; }
+    .discord-btn { background: #5865F2; }
+    .telegram-btn { background: #229ED9; }
+    @media (max-width: 600px) { .community-links { grid-template-columns: 1fr; } }
+    footer { padding: 20px; font-size: 14px; opacity: 0.7; }
+
+    /* COOKIE BANNER CSS */
+    .cookie-banner {
+        position: fixed; bottom: 0; left: 0; width: 100%;
+        background-color: rgba(15, 32, 39, 0.95);
+        color: #fff; padding: 15px 20px; text-align: center;
+        z-index: 9999; box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.5);
+        display: none; /* Mostrato via JS */
+        flex-direction: column; align-items: center; gap: 10px;
+        box-sizing: border-box;
+    }
+    .cookie-banner p { margin: 0; font-size: 14px; }
+    .cookie-btn {
+        background-color: #1abc9c; color: #000; border: none;
+        padding: 10px 20px; font-weight: bold; border-radius: 8px;
+        cursor: pointer; transition: background 0.3s;
+    }
+    .cookie-btn:hover { background-color: #16a085; }
+    @media (min-width: 600px) { .cookie-banner { flex-direction: row; justify-content: center; gap: 20px; } }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="nav-left">
+        <img src="onetalelogo.png" class="nav-logo">
+        <span class="nav-title">Onetale</span>
+    </div>
+    <ul class="nav-links">
+        <li><a href="index.html" style="color: #1abc9c;">Home</a></li>
+        <li><a href="crafting.html">Crafting Extra</a></li>
+        <li><a href="duelcraft.html">DuelCraft WIP</a></li>
+        <li><a href="#map-box">Mappa</a></li>
+        <li><a href="#community">Social</a></li>
+        <li><a href="https://discord.gg/AgcgVAdEYt" target="_blank">Discord</a></li>
+    </ul>
+</nav>
+
+<header id="home">
+    <div class="header-row">
+        <h1>Onetale</h1>
+        <div id="status" class="status">Controllo stato server...</div>
+    </div>
+    <div class="header-row">
+        <h2>Server Minecraft Italiano • Survival Friendly</h2>
+        <div class="version">Versione: 1.21.11</div>
+    </div>
+    <div class="header-row">
+        <h2></h2>
+        <div class="ip" onclick="copyIP()">mc.onetale.it <span class="bebas-neue-regular">[Copia]</span></div>
+    </div>
+</header>
+
+<div class="boxes">
+    <div class="box" id="info">
+        <h2>🌱 Cos'è Onetale?</h2>
+        <p>Onetale è un server <b>Survival Friendly</b> pensato per divertirsi, costruire e giocare con altri player.</p>
+        <p>Sul server sono presenti elementi che arricchiscono il gameplay come:</p>
+        <p>• <b>Crafting Speciali</b> • <b>Carte Collezionabili</b> • <b>Eventi</b> •
+        <br>• <b>Un gioco di carte implementato</b> •  E molto altro!</p>
+    </div>
+    <div class="box" id="regole">
+        <h2>📜 Regole principali</h2>
+        <ul>
+            <li>✔ Niente griefing</li>
+            <li>✔ Niente cheat o hack</li>
+            <li>✔ Rispetta tutti i player</li>
+            <li>✔ Divertiti!</li>
+        </ul>
+    </div>
+    <div class="box" id="map-box">
+        <h2>🗺️ Mappa del mondo (Dynmap)</h2>
+        <iframe src="http://mc.onetale.it:8123/" style="width:100%; height:500px; border:none; border-radius:10px;"></iframe>
+    </div>
+    <div class="box" id="staff">
+        <h2>👥 Staff</h2>
+        <p>Il nostro team sempre pronto ad aiutarti:</p>
+        <div class="staff-list">
+            <div class="staff-member">
+                <span class="role-badge role-founder">Founder</span>
+                <span>Pandonez, Samy79</span>
+            </div>
+            <div class="staff-member">
+                <span class="role-badge role-admin">Admin</span>
+                <span>OminoBianco</span>
+            </div>
+            <div class="staff-member">
+                <span class="role-badge role-mod">Mod</span>
+                <span>_Yoah, Sgrubulfio, TheTwinPak, Icewind1973, Drudi_</span>
+            </div>
+        </div>
+    </div>
+    <div class="box" id="community">
+        <h2>💬 Community</h2>
+        <p>Unisciti ai nostri canali ufficiali per news, eventi e supporto!</p>
+        <div class="community-links">
+            <div class="community-card">
+                <img src="https://cdn-icons-png.flaticon.com/512/5968/5968756.png" alt="Discord">
+                <a href="https://discord.gg/AgcgVAdEYt" target="_blank" class="discord-btn">Entra su Discord</a>
+            </div>
+            <div class="community-card">
+                <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram">
+                <a href="https://t.me/onetalepubblico" target="_blank" class="telegram-btn">Entra su Telegram</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    © <span id="year"></span> Onetale • Server Minecraft
+</footer>
+
+<div id="cookieBanner" class="cookie-banner">
+    <p>Questo sito utilizza i cookie per garantirti la migliore esperienza di navigazione e memorizzare le tue preferenze.</p>
+    <button id="acceptCookies" class="cookie-btn">Ho capito!</button>
+</div>
+
+<script>
+function copyIP() {
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText('mc.onetale.it');
+        alert('IP Copiato!');
+    } else {
+        prompt('Copia l\'IP:', 'mc.onetale.it');
+    }
+}
+
+fetch('https://api.mcsrvstat.us/2/mc.onetale.it')
+  .then(res => res.json())
+  .then(data => {
+    const status = document.getElementById('status');
+    if (data.online) {
+      status.textContent = `🟢 Server Online — ${data.players.online} player online`;
+      status.classList.add('online');
+    } else {
+      status.textContent = '🔴 Server Offline';
+      status.classList.add('offline');
+    }
+  })
+  .catch(() => {
+    document.getElementById('status').textContent = '⚠️ Stato server non disponibile';
+  });
+
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// SCRIPT COOKIE BANNER
+document.addEventListener("DOMContentLoaded", function() {
+    const cookieBanner = document.getElementById("cookieBanner");
+    const acceptBtn = document.getElementById("acceptCookies");
+
+    // Controlla se l'utente ha già accettato i cookie
+    if (!localStorage.getItem("cookieConsent")) {
+        cookieBanner.style.display = "flex";
+    }
+
+    // Se clicca accetto, salva nel localStorage e nascondi il banner
+    acceptBtn.addEventListener("click", function() {
+        localStorage.setItem("cookieConsent", "true");
+        cookieBanner.style.display = "none";
+    });
+});
+</script>
+
+</body>
+</html>
